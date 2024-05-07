@@ -33,26 +33,48 @@ final class MagicNumber {
     public static final int MAGICNUM = 15;
 
 
+    /**
+    * Process numbers.
+    */
+    private static int numberOfProcess = 0;
+    private static int numberOfMagicSquares = 0;
+
+    /*public static void genSquare2(final int[] square, final int index) {
+        // generate the magic sqaure
+        for (int counter = 1; counter < 9; counter++) {
+            numberOfProcess++;
+            square[index] = counter;
+
+            // only fill in spots that have not yet been filled in
+            if (index < 8) {
+                genSquare2(square, index + 1);
+            } else if (isMagic(square) == true) {
+                // if all done and it is magic, then print it out
+                printMagicSquare(square);
+                numberOfMagicSquares++;
+            }
+        }
+    }*/
+
     public static void genSquare(final int[] square, final int[] currentSquare,
                                  final int index) {
-        if (index == NINE) {
-            if (isMagic(currentSquare)) {
-                printMagicSquare(currentSquare);
-            }
-            return;
-        }
+        // generate the magic sqaure
+        for (int counter = 0; counter < square.length; counter++) {
+            numberOfProcess++;
+            if (currentSquare[counter] == 0) {
+                // incriment to the next step
+                square[index] = counter + 1;
+                currentSquare[counter] = 1;
 
-        for (int num = 1; num <= NINE; num++) {
-            boolean isPresent = false;
-            for (int i = 0; i < index; i++) {
-                if (currentSquare[i] == num) {
-                    isPresent = true;
-                    break;
+                // only fill in spots that have not yet been filled in
+                if (index < square.length - 1) {
+                    genSquare(square, currentSquare, index + 1);
+                } else if (isMagic(square) == true) {
+                    // if all done and it is magic, then print it out
+                    printMagicSquare(square);
+                    numberOfMagicSquares++;
                 }
-            }
-            if (!isPresent) {
-                currentSquare[index] = num;
-                genSquare(square, currentSquare, index + 1);
+                currentSquare[counter] = 0;
             }
         }
     }
